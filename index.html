@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pendaftaran Yoga</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="wrap">
+    <div class="brand">
+      <div class="logo">🧘</div>
+      <div>
+        <h1>Pendaftaran Yoga</h1>
+        <p class="muted">Form sederhana + rekap per hari & per bulan</p>
+      </div>
+    </div>
+    <div class="right">
+      <button id="btnRefresh" class="btn secondary">Muat Ulang</button>
+      <button id="btnExport" class="btn secondary">Export CSV</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <h2>Input Peserta</h2>
+      <form id="regForm" autocomplete="off">
+        <div class="grid">
+          <label>
+            <span>Nama</span>
+            <input required name="nama" type="text" placeholder="Contoh: Budi" />
+          </label>
+
+          <label>
+            <span>Status Pembayaran</span>
+            <select required name="status">
+              <option value="Lunas">Lunas</option>
+              <option value="Belum Lunas">Belum Lunas</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Hari Kegiatan</span>
+            <input required name="hari" type="date" />
+          </label>
+
+          <label>
+            <span>Biaya (Rp)</span>
+            <input required name="biaya" type="number" min="0" step="1000" placeholder="50000" />
+          </label>
+
+          <label class="colspan-2">
+            <span>Lokasi Kegiatan</span>
+            <input required name="lokasi" type="text" placeholder="Contoh: Studio Yoga Sudirman" />
+          </label>
+        </div>
+
+        <div class="row">
+          <button class="btn primary" type="submit">Simpan</button>
+          <div id="statusMsg" class="muted"></div>
+        </div>
+      </form>
+      <details class="hint">
+        <summary>Catatan</summary>
+        <ul>
+          <li>Aplikasi ini gratis dijalankan di GitHub Pages.</li>
+          <li>Penyimpanan data menggunakan Google Sheets via Google Apps Script (gratis).</li>
+          <li>Rekap dihitung dari <b>Hari Kegiatan</b>.</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="stats">
+      <div class="stat">
+        <div class="label">Total Peserta</div>
+        <div id="sTotal" class="value">0</div>
+      </div>
+      <div class="stat">
+        <div class="label">Lunas</div>
+        <div id="sPaid" class="value">0</div>
+      </div>
+      <div class="stat">
+        <div class="label">Belum Lunas</div>
+        <div id="sUnpaid" class="value">0</div>
+      </div>
+      <div class="stat">
+        <div class="label">Total Masuk (Lunas)</div>
+        <div id="sRevenue" class="value">Rp0</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Rekap Per Hari</h2>
+      <div class="tableWrap">
+        <table id="dailyTable">
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th class="num">Peserta</th>
+              <th class="num">Lunas</th>
+              <th class="num">Belum</th>
+              <th class="num">Total Biaya</th>
+              <th class="num">Masuk (Lunas)</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Rekap Per Bulan</h2>
+      <div class="tableWrap">
+        <table id="monthlyTable">
+          <thead>
+            <tr>
+              <th>Bulan</th>
+              <th class="num">Peserta</th>
+              <th class="num">Lunas</th>
+              <th class="num">Belum</th>
+              <th class="num">Total Biaya</th>
+              <th class="num">Masuk (Lunas)</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Daftar Pendaftaran</h2>
+      <div class="filters">
+        <input id="qSearch" type="search" placeholder="Cari nama / lokasi..." />
+        <select id="qStatus">
+          <option value="">Semua status</option>
+          <option value="Lunas">Lunas</option>
+          <option value="Belum Lunas">Belum Lunas</option>
+        </select>
+        <input id="qDate" type="date" title="Filter tanggal kegiatan" />
+        <button id="btnClear" class="btn tertiary" type="button">Reset</button>
+      </div>
+
+      <div class="tableWrap">
+        <table id="dataTable">
+          <thead>
+            <tr>
+              <th>Waktu Input</th>
+              <th>Nama</th>
+              <th>Status</th>
+              <th>Hari Kegiatan</th>
+              <th class="num">Biaya</th>
+              <th>Lokasi</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="muted small">
+      Dibuat sederhana untuk kebutuhan internal. Jika butuh fitur akun/login atau pembatasan akses, bilang ya—nanti saya bantu versi yang lebih aman.
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
