@@ -35,4 +35,3 @@ Aplikasi sederhana untuk pendaftaran event:
 ## Catatan keamanan
 Ini dibuat untuk kebutuhan sederhana (internal). Karena aplikasi bersifat statis di GitHub Pages, `API_KEY` akan terlihat di browser. Untuk keamanan yang benar (akun/login + aturan akses), perlu backend/auth.
 
-Kalau Anda ingin versi lebih aman (login admin, role, atau hanya admin yang bisa lihat rekap), bilang ya.
