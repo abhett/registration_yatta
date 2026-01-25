@@ -1,6 +1,6 @@
-# Pendaftaran Yoga (Gratis) — GitHub Pages + Google Sheets
+# Pendaftaran Event (Gratis) — GitHub Pages + Google Sheets
 
-Aplikasi sederhana untuk pendaftaran yoga:
+Aplikasi sederhana untuk pendaftaran event:
 - Field: **nama**, **status pembayaran**, **hari kegiatan**, **biaya**, **lokasi**
 - Otomatis membuat **rekap per hari** dan **rekap per bulan**
 - Hosting **gratis** di GitHub Pages
@@ -10,7 +10,7 @@ Aplikasi sederhana untuk pendaftaran yoga:
 1. Buat Google Sheet baru (contoh nama: `Pendaftaran Yoga`).
 2. Dari menu: **Extensions → Apps Script**.
 3. Buat file script (misalnya `Code.gs`), lalu paste isi dari `apps-script/Code.gs`.
-4. Ubah nilai `API_KEY` (bebas, misalnya `yoga-2026-rahasia`) dan kalau perlu `SHEET_NAME`.
+4. Ubah nilai `API_KEY` (bebas, misalnya `pendaftaran-event`) dan kalau perlu `SHEET_NAME`.
 
 ## 2) Deploy Apps Script sebagai Web App
 1. Klik **Deploy → New deployment**.
