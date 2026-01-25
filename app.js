@@ -7,8 +7,8 @@
  */
 
 const CONFIG = {
-  SCRIPT_URL: "PASTE_URL_WEB_APP_DI_SINI", // contoh: https://script.google.com/macros/s/XXXX/exec
-  API_KEY: "GANTI_API_KEY_DI_SINI",
+  SCRIPT_URL: "https://script.google.com/macros/s/AKfycbxhF4qD4s0_tNSZtmeHBfIDHPJE6tq5ltoWQ3FOacJiUiaqKlmbpa_aFFD0CXuK-FIi/exec", // contoh: https://script.google.com/macros/s/XXXX/exec
+  API_KEY: "yoga-2026-yatta",
 };
 
 const fmtIDR = new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 });
