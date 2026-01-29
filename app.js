@@ -7,8 +7,8 @@
  */
 
 const CONFIG = {
-  SCRIPT_URL: "https://script.google.com/macros/s/AKfycbxhF4qD4s0_tNSZtmeHBfIDHPJE6tq5ltoWQ3FOacJiUiaqKlmbpa_aFFD0CXuK-FIi/exec", // contoh: https://script.google.com/macros/s/XXXX/exec
-  API_KEY: "yoga-2026-yatta",
+  SCRIPT_URL: "PASTE_URL_WEB_APP_DI_SINI", // contoh: https://script.google.com/macros/s/XXXX/exec
+  API_KEY: "GANTI_API_KEY_DI_SINI",
 };
 
 const fmtIDR = new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 });
@@ -104,7 +104,6 @@ async function apiAdd({ nama, status, hari, biaya, lokasi }) {
 }
 
 function toISODate(d) {
-  // d: Date or string (yyyy-mm-dd)
   if (!d) return "";
   if (typeof d === "string") return d.slice(0, 10);
   const year = d.getFullYear();
@@ -152,10 +151,9 @@ function summarize(rows) {
     addAgg(monthly, monthKey);
   }
 
-  const toSorted = (map, isMonth=false) => {
+  const toSorted = (map) => {
     const arr = [...map.entries()].map(([k, v]) => ({ key: k, ...v }));
     arr.sort((a, b) => {
-      // sort desc, with "(tanpa ...)" last
       const ak = a.key.startsWith("(") ? "" : a.key;
       const bk = b.key.startsWith("(") ? "" : b.key;
       return (bk).localeCompare(ak);
@@ -166,7 +164,7 @@ function summarize(rows) {
   return {
     totals: { total, paid, unpaid, revenue },
     daily: toSorted(daily),
-    monthly: toSorted(monthly, true),
+    monthly: toSorted(monthly),
   };
 }
 
@@ -186,7 +184,8 @@ function renderStats(t) {
   els.sRevenue.textContent = fmtIDR.format(t.revenue);
 }
 
-function renderRecap(tbody, items, labelKey) {
+function renderRecap(tbody, items, labelKey, opts = {}) {
+  const showShare30 = !!opts.share30;
   tbody.innerHTML = items.map(it => `
     <tr>
       <td>${escapeHtml(it.key || labelKey)}</td>
@@ -195,12 +194,12 @@ function renderRecap(tbody, items, labelKey) {
       <td class="num">${it.belum}</td>
       <td class="num">${fmtIDR.format(it.total_biaya)}</td>
       <td class="num">${fmtIDR.format(it.masuk)}</td>
+      ${showShare30 ? `<td class="num">${fmtIDR.format(it.masuk * 0.3)}</td>` : ""}
     </tr>
   `).join("");
 }
 
 function normalizeRow(r) {
-  // Make fields consistent (some may come as Date strings)
   return {
     timestamp: r.timestamp ? String(r.timestamp) : "",
     nama: r.nama ? String(r.nama) : "",
@@ -229,8 +228,6 @@ function applyFilters(rows) {
 
 function renderRows(rows) {
   const filtered = applyFilters(rows);
-
-  // sort by timestamp desc if parseable, else keep order
   filtered.sort((a, b) => String(b.timestamp).localeCompare(String(a.timestamp)));
 
   els.dataBody.innerHTML = filtered.map(r => `
@@ -282,7 +279,7 @@ async function loadAndRender() {
     const s = summarize(ALL_ROWS);
     renderStats(s.totals);
     renderRecap(els.dailyBody, s.daily, "Tanggal");
-    renderRecap(els.monthlyBody, s.monthly, "Bulan");
+    renderRecap(els.monthlyBody, s.monthly, "Bulan", { share30: true });
     renderRows(ALL_ROWS);
 
     setMsg(`Terakhir update: ${new Date().toLocaleString("id-ID")}`);
@@ -323,7 +320,6 @@ els.form.addEventListener("submit", async (ev) => {
     await apiAdd(payload);
     setMsg("Tersimpan ✅");
     els.form.reset();
-    // default hari to today for convenience
     els.form.querySelector('input[name="hari"]').value = todayISO();
     await loadAndRender();
   } catch (e) {
@@ -344,7 +340,6 @@ els.btnClear.addEventListener("click", () => {
 });
 
 (function init(){
-  // default date today
   els.form.querySelector('input[name="hari"]').value = todayISO();
   setMsg("Siap. Isi form lalu klik Simpan.");
 })();
